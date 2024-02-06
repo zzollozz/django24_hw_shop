@@ -9,7 +9,7 @@ class Goods(models.Model):
     created = models.DateTimeField(verbose_name='создан', auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"Заказ: {self.name}, количество: {self.quantity}"
 
     class Meta:
         verbose_name = 'товар'

@@ -1,0 +1,7 @@
+/venv_project_schop_django/
+/db.sqlite3
+/log/
+.idea/
+/temp_Test.py
+__pycache__
+**/__pycache__/

@@ -10,7 +10,13 @@ from project_Schop import settings
 
 
 class Command(BaseCommand):
-    help = 'Создание фейковый данных в базе'
+    help = '''
+    Создание фейковый данных в базе
+    пример:
+        python manage.py create_fake_data_db 5
+    5 - может любое число (количество клиентов)
+    количество заказов посчитывается  (количество клиентов * количество клиентов)
+    '''
 
     def add_arguments(self, parser):
         parser.add_argument('count', type=int, help='quantity_users')

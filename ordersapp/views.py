@@ -1,34 +1,33 @@
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from datetime import date, timedelta
 
-from mainapp.models import Goods
+from django.shortcuts import render, get_object_or_404
+
 from ordersapp.models import Order
+from authapp.models import Client
 
-# это заглушка на будущее
-class OrderCreate(CreateView):
-    model = Order
-    fields = []
-    success_url = reverse_lazy('orders:orders_list')
 
-class OrderUpdate(UpdateView):
-    model = Order
-    fields = []
-    success_url = reverse_lazy('orders:orders_list')
+def order_read(request, user_id=None):
+    if user_id:
+        user = get_object_or_404(Client, pk=user_id)
+        start_dates = [date.today() - timedelta(days=d) for d in [7, 30, 365]]
+        all_user_orders = Order.objects.filter(user_id=user.id)
 
-class OrderDelete(DeleteView):
-    model = Order
-    success_url = reverse_lazy('orders:orders_list')
+        orders_day = [item.good_id.only()[0].name for item in all_user_orders.filter(order_date__gte=start_dates[0])]
+        orders_month = [item.good_id.only()[0].name for item in all_user_orders.filter(order_date__gte=start_dates[1])]
+        orders_year = [item.good_id.only()[0].name for item in all_user_orders.filter(order_date__gte=start_dates[2])]
 
-class OrderRead(DetailView):
-    model = Order
-    extra_context = {'title': 'заказы/просмотр'}
-
-def get_product_price(request, pk):
-    # breakpoint()
-    product = Goods.objects.filter(pk=int(pk)).first()
-    if product:
-        return JsonResponse({'price': product.price})
+        context = {
+            'title': f'заказы: {user.name}',
+            'user': user.name,
+            'orders_day': orders_day,
+            'orders_month': orders_month,
+            'orders_year': orders_year
+        }
+        return render(request, 'ordersapp/read_client_order.html', context)
     else:
-        return JsonResponse({'price': 0})
+        orders = [order.good_id.only()[0].name for order in Order.objects.all()]
+        context = {
+            'title': 'Все заказы',
+            'orders': orders
+        }
+        return render(request, 'ordersapp/read_orders.html', context)

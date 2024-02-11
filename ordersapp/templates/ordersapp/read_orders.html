@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+{% endblock menu %}
+
+{% block content %}
+    <h2>Все заказы </h2>
+    <table>
+    {% for order in orders %}
+        <tr>
+            <td>имя товара | {{ order }} </td>
+        </tr>
+    {% endfor %}
+
+    </table>
+
+{% endblock content %}

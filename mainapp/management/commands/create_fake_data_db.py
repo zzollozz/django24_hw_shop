@@ -36,7 +36,7 @@ class Command(BaseCommand):
         count_order = kwargs.get('count') * kwargs.get('count')
         clients = [user.id for user in Client.objects.all()]
         products = Goods.objects.all()
-
+        #
         for _ in range(count_order):
             product = choices(products, k=1)[0]
             order = Order.objects.create(

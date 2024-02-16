@@ -8,7 +8,7 @@
     <table>
     {% for order in orders %}
         <tr>
-            <td>имя товара | {{ order }} </td>
+            <td>Номер заказа {{ order.id }}  ||  Название товара | {{ order.name }}  ||  Дата создания | {{ order.created }}</td>
         </tr>
     {% endfor %}
 

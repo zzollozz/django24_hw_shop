@@ -3,6 +3,10 @@ from django.contrib import admin
 from ordersapp.models import Order, OrderCard
 
 
+class ToppingInline(admin.TabularInline):
+    model = OrderCard
+
+
 @admin.action(description='Что то сделать')
 def reset_quantity(modeladmin, request, queryset):
     queryset.update(quantity=0)
@@ -17,6 +21,8 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'order_date']
     search_help_text = 'Поиск по Номеру заказа или Дате создания'
     # actions = [reset_quantity]
+
+    inlines = [ToppingInline, ]
 
     # """Отдельный продукт"""
     # fields = ['user_id']
@@ -51,9 +57,11 @@ class OrderAdmin(admin.ModelAdmin):
         # ),
     ]
 
-    @admin.display(description="Дополнительно", ordering='user_id')
+    exclude = ('toppings',)
+
+    @admin.display(description="Товары в заказе", ordering='user_id')
     def order_details(self, order: OrderCard):
-        return order.good_id.get()
+        return [i.name for i in order.good_id.all()]
 
 
-admin.site.register(Order, OrderAdmin)  # , OrderCard)
+admin.site.register(Order, OrderAdmin)

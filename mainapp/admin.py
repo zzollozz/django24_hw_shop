@@ -8,6 +8,7 @@ class GoodsAdmin(admin.ModelAdmin):
     list_display = ['name', 'img_prev', 'price', 'quantity']
     list_filter = ['name', 'price']
     readonly_fields = ['img_prev']
+    save_on_top = True
 
     fieldsets = [
         (

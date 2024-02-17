@@ -49,12 +49,6 @@ class OrderAdmin(admin.ModelAdmin):
                 'fields': ['all_sum_order'],
             }
         ),
-        # (
-        #     'Дополнительно',
-        #     {
-        #         'fields': ['order_details'],
-        #     }
-        # ),
     ]
 
     exclude = ('toppings',)

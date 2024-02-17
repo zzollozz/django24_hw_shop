@@ -14,8 +14,11 @@
     1. Импортируйте функцию include(): из django.urls import include, путь
     2. Добавьте URL-адрес в urlpatterns: path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+
+from project_Schop import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='adminapp'),
@@ -23,3 +26,6 @@ urlpatterns = [
     path('auth/', include('authapp.urls', namespace='auth')),
     path('orders/', include('ordersapp.urls', namespace='orders')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

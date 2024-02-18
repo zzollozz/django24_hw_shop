@@ -24,4 +24,5 @@ DATABASES = {
         'NAME': env.str('DATABASES_NAME'),
         'ENGINE': env.str('DATABASES_ENGINE'),
         'USER': env.str('DATABASES_USER'),
-    }}
+    }
+}

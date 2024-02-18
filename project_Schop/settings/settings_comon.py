@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import environ
-import os
 
 env = environ.Env(
     # set casting, default value
@@ -35,10 +34,11 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = ['*', 'domshop.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1',
+                 '0.0.0.0',
+                 'domshop.pythonanywhere.com'
+                 ]
 
 INTERNAL_IPS = ['127.0.0.1']
 

@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('mainapp.urls', namespace='mainapp')),
     path('auth/', include('authapp.urls', namespace='auth')),
     path('orders/', include('ordersapp.urls', namespace='orders')),
+    path('__debug__/', include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:

@@ -11,20 +11,36 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(BASE_DIR / '../.env')
+# environ.Env.read_env(os.path.join(BASE_DIR, '../../.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*^fobpo(8ox5848^btu(5_a90$(-nbq$tum^7^&%5n(h-8c+m7'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS = ['*', 'domshop.pythonanywhere.com']
+
+INTERNAL_IPS = ['127.0.0.1']
 
 # Application definition
 
@@ -38,9 +54,11 @@ INSTALLED_APPS = [
     'mainapp',
     'authapp',
     'ordersapp',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,8 +73,9 @@ ROOT_URLCONF = 'project_Schop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR.parent / 'templates'],
+        #'DIRS': [BASE_DIR / 'templates']
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,12 +93,19 @@ WSGI_APPLICATION = 'project_Schop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'NAME': env.str('DATABASES_NAME'),
+#         'ENGINE': env.str('DATABASES_ENGINE'),  # <your_username>$<your_database_name>
+#         'USER': env.str('DATABASES_USER'),      # <your_username
+#         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+#         'HOST': 'domshop.mysql.pythonanywhere-services.com',
+#         'OPTIONS': {
+#             'init_command': "SET NAMES 'utf8mb4';SET sql_mode = 'STRICT_TRANS_TABLES'",
+#             'charset': 'utf8mb4',
+#         }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -113,9 +139,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+# STATIC_ROOT = BASE_DIR / 'static/'
+#
+# STATIC_URL = 'static/'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

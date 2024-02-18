@@ -25,10 +25,18 @@ def order_read(request, user_id=None):
         }
         return render(request, 'ordersapp/read_client_order.html', context)
     else:
-        orders = [order.good_id.get() for order in Order.objects.all()]
+        orders = [order.good_id for order in Order.objects.all()]
+        orders_item = []
+        for item in orders:
+            item.values()
+            if len(item.values()) > 1:
+                for itm in item.values():
+                    orders_item.append(itm)
+            else:
+                orders_item.append(item.values()[0])
 
         context = {
             'title': 'Все заказы',
-            'orders': orders
+            'orders': orders_item
         }
         return render(request, 'ordersapp/read_orders.html', context)

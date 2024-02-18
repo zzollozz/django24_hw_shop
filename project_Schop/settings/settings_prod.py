@@ -1,11 +1,9 @@
+import os
 from pathlib import Path
-import environ
+from dotenv import load_dotenv
 
 
-
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -20,10 +18,10 @@ CSRF_COOKIE_SECURE = True
 
 DATABASES = {
     'default': {
-        'NAME': env.str('DATABASES_NAME'),
-        'ENGINE': env.str('DATABASES_ENGINE'),  # <your_username>$<your_database_name>
-        'USER': env.str('DATABASES_USER'),      # <your_username
-        'PASSWORD': env.str('MYSQL_PASSWORD'),
+        'NAME': os.getenv('DATABASES_NAME'),
+        'ENGINE': os.getenv('DATABASES_ENGINE'),  # <your_username>$<your_database_name>
+        'USER': os.getenv('DATABASES_USER'),      # <your_username
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
         'HOST': 'domshop.mysql.pythonanywhere-services.com',
         'OPTIONS': {
             'init_command': "SET NAMES 'utf8mb4';SET sql_mode = 'STRICT_TRANS_TABLES'",

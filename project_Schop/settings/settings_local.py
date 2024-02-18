@@ -1,12 +1,9 @@
 import os
 from pathlib import Path
-import environ
+from dotenv import load_dotenv
 
 
-
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,8 +18,8 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 
 DATABASES = {
     'default': {
-        'NAME': env.str('DATABASES_NAME'),
-        'ENGINE': env.str('DATABASES_ENGINE'),
-        'USER': env.str('DATABASES_USER'),
+        'NAME': os.getenv('DATABASES_NAME'),
+        'ENGINE': os.getenv('DATABASES_ENGINE'),
+        'USER': os.getenv('DATABASES_USER'),
     }
 }

@@ -1,13 +1,11 @@
+import os
 from .settings_comon import *
-import environ
+from dotenv import load_dotenv
 
 
+load_dotenv()
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-
-if env('SETTINGS') == 'local':
+if os.getenv('SETTINGS') == 'local':
     from .settings_local import *
     print('settings_local')
 else:

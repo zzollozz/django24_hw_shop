@@ -21,6 +21,7 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'order_date']
     search_help_text = 'Поиск по Номеру заказа или Дате создания'
     # actions = [reset_quantity]
+    save_on_top = True
 
     inlines = [ToppingInline, ]
 

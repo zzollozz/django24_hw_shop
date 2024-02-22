@@ -2,5 +2,5 @@
     <a href="{% url 'mainapp:home' %}">Домой</a>
     <a href="{% url 'mainapp:add_product' %}">Добавление продукта</a>
     <a href="{% url 'ordersapp:order_read' %}">Все заказы</a>
-    <a href="admin/">Админка</a>
+    <a href="{% url 'admin:index' %}">Админка</a>
 </div>
